@@ -5,3 +5,11 @@
 	name = Alan Joseph
 [core]
 	autocrlf = input
+	editor = nano
+
+[alias]
+    # Simple shortcuts
+    s = status -s
+    
+    # A beautiful, readable, colorized git log tree
+    lg = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %s %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
