@@ -1,0 +1,7 @@
+[init]
+	defaultBranch = main
+[user]
+	email = alan.joseph@hatio.in
+	name = Alan Joseph
+[core]
+	autocrlf = input
