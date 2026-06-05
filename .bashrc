@@ -176,3 +176,9 @@ export FZF_CTRL_R_OPTS="
 
 # find alternatively
 alias fd=fdfind
+. "$HOME/.cargo/env"
+
+# command to create new/dir/file.ext
+mkfile() {
+    mkdir -p "$(dirname "$1")" && touch "$1"
+}
