@@ -156,7 +156,7 @@ export FZF_DEFAULT_OPTS='
   "
 '
 
-# command to open file/dir with default app fopen or ctrl + f
+# ctrl + f to open file/dir with default app
 fopen() {
   local target
   target=$(find . 2>/dev/null | fzf --prompt="Open > ") || return
@@ -165,7 +165,7 @@ fopen() {
 bind -r "\C-f"
 bind -x '"\C-f": "fopen"'
 
-# Command history uses fzf
+# ctrl + r command history using fzf
 export FZF_CTRL_R_OPTS="
   --height 40%
   --layout=reverse
@@ -178,7 +178,48 @@ export FZF_CTRL_R_OPTS="
 alias fd=fdfind
 . "$HOME/.cargo/env"
 
-# command to create new/dir/file.ext
+# mkfile to create new/dir/file.ext
 mkfile() {
     mkdir -p "$(dirname "$1")" && touch "$1"
 }
+
+# ctrl + g search in files
+search_in_files() {
+    local output query filename linenum line
+
+    output=$(
+        FZF_DEFAULT_COMMAND='true' \
+        fzf --ansi \
+            --disabled \
+            --print-query \
+            --delimiter ':' \
+            --prompt="Live rg > " \
+            --preview 'batcat --style=numbers --color=always --highlight-line {2} {1} 2>/dev/null' \
+            --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
+            --bind 'change:reload:if [ -z {q} ]; then true; else rg --line-number --with-filename --no-heading --color=always --smart-case -e {q} || true; fi'
+    )
+
+    [ -z "$output" ] && return
+
+    query=${output%%$'\n'*}
+    output=${output#*$'\n'}
+
+    [ -z "$output" ] && return
+
+    filename=${output%%:*}
+    output=${output#*:}
+
+    linenum=${output%%:*}
+    line=${output#*:}
+
+    # re-apply the exact highlight.
+    if [ -n "$query" ]; then
+        line=$(printf "%s\n" "$line" | rg --color=always --smart-case -e "$query" 2>/dev/null || printf "%s\n" "$line")
+    fi
+
+    printf '\e[1;33m%s\e[0m\n' "$query"
+    printf '\e[1;34m%s\e[0m\n' "$(realpath "$filename")"
+    printf '\e[1;33m%s:\e[0m %s\n' "$linenum" "$line"
+}
+
+bind '"\C-g": "\C-a\C-k search_in_files\n"'
