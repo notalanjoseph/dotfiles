@@ -121,24 +121,39 @@ fi
 # PATH without duplicates
 
 # Python
-[[ ":$PATH:" != *":$HOME/.local/python-3.11.9/bin:"* ]] && \
 PATH="$HOME/.local/python-3.11.9/bin:$PATH"
 
 # pnpm
 export PNPM_HOME="$HOME/.local/share/pnpm"
-[[ ":$PATH:" != *":$PNPM_HOME:"* ]] && \
 PATH="$PNPM_HOME:$PATH"
 
 # Maven
-export MAVEN_HOME=$HOME/tools/apache-maven-3.9.14
-[[ ":$PATH:" != *":$MAVEN_HOME/bin:"* ]] && \
+export MAVEN_HOME="$HOME/tools/apache-maven-3.9.14"
 PATH="$MAVEN_HOME/bin:$PATH"
 
 # IntelliJ IDEA
-[[ ":$PATH:" != *":$HOME/apps/idea-IU-261.22158.277/bin:"* ]] && \
 PATH="$HOME/apps/idea-IU-261.22158.277/bin:$PATH"
 
+# Local Bin (For Claude and other local tools)
+PATH="$HOME/.local/bin:$PATH"
+
+# --- AUTOMATED DEDUPLICATION ---  keep all additions to PATH above this!
+clean_path() {
+    local IFS=':'
+    local old_path=($PATH)
+    local new_path=()
+    local seen; declare -A seen
+    for dir in "${old_path[@]}"; do
+        if [[ -n "$dir" && -z "${seen[$dir]}" ]]; then
+            new_path+=("$dir")
+            seen[$dir]=1
+        fi
+    done
+    PATH="${new_path[*]}"
+}
+clean_path
 export PATH
+unset -f clean_path
 
 
 alias bat='batcat --paging=never'
@@ -223,3 +238,4 @@ search_in_files() {
 }
 
 bind '"\C-g": "\C-a\C-k search_in_files\n"'
+
