@@ -8,6 +8,15 @@ FILES=".bashrc_extra .gitconfig .inputrc"
 
 echo "Starting dotfiles installation..."
 
+# Install dependencies
+PACKAGES="fzf bat fd-find ripgrep tree"
+if sudo -n true 2>/dev/null || sudo -v 2>/dev/null; then
+    echo "Installing dependencies..."
+    sudo apt install -y $PACKAGES
+else
+    echo "Skipping dependency installation (no sudo access)."
+fi
+
 # Move into the dotfiles directory
 cd "$DOTFILES_DIR" || exit
 
