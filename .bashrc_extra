@@ -45,7 +45,11 @@ unset -f clean_path
 
 alias bat='batcat --paging=never'
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+if [ -f ~/.fzf.bash ]; then
+    source ~/.fzf.bash
+elif [ -f /usr/share/doc/fzf/examples/key-bindings.bash ]; then
+    source /usr/share/doc/fzf/examples/key-bindings.bash
+fi
 # Show preview: batcat for file, tree for dir
 export FZF_DEFAULT_OPTS='
   --border
