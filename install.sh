@@ -4,7 +4,7 @@
 DOTFILES_DIR="$HOME/dotfiles"
 
 # Define the exact files you want to symlink
-FILES=".bashrc_extra .gitconfig .inputrc"
+FILES=".bashrc_extra .gitconfig .inputrc .bash_commands_guide"
 
 echo "Starting dotfiles installation..."
 
@@ -48,6 +48,13 @@ if ! grep -qF "$HOOK" "$HOME/.bashrc"; then
     echo "" >> "$HOME/.bashrc"
     echo "$HOOK" >> "$HOME/.bashrc"
     echo "Appended .bashrc_extra hook to ~/.bashrc"
+fi
+
+# GNOME Terminal: Ctrl+V to paste, Ctrl+Shift+C to copy
+if command -v gsettings &>/dev/null; then
+    echo "Configuring GNOME Terminal keybindings..."
+    gsettings set org.gnome.Terminal.Legacy.Keybindings:/org/gnome/terminal/legacy/keybindings/ copy '<Primary><Shift>c'
+    gsettings set org.gnome.Terminal.Legacy.Keybindings:/org/gnome/terminal/legacy/keybindings/ paste '<Primary>v'
 fi
 
 echo "Installation complete! Enjoy your setup."

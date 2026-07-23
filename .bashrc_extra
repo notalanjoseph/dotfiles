@@ -5,6 +5,7 @@ else
     PS1='\[\e]0;\w\a\]\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 fi
 
+
 # PATH without duplicates
 
 # Python
@@ -65,7 +66,8 @@ export FZF_DEFAULT_OPTS='
 # ctrl + f to open file/dir with default app
 fopen() {
   local target
-  target=$(find . 2>/dev/null | fzf --prompt="Open > ") || return
+  target=$(find . -name '.git' -prune -printf '%p/\n' -o \( -type d -printf '%p/\n' -o -type f -print \) 2>/dev/null | fzf --prompt="Open > ") || return
+  target="${target%/}"
   xdg-open "$target" >/dev/null 2>&1
 }
 bind -r "\C-f"
@@ -84,8 +86,32 @@ export FZF_CTRL_R_OPTS="
 alias fd=fdfind
 [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
+# ctrl + t command snippets
+snippets() {
+    local selected cmd
+    selected=$(grep -v '^#\|^$' ~/.bash_commands_guide | \
+        fzf --delimiter=' :: ' \
+            --with-nth=1,2 \
+            --prompt="snippets > " \
+            --preview='echo {2}' \
+            --preview-window='bottom,3,wrap') || return
+    cmd="${selected%% :: *}"
+    READLINE_LINE="$cmd"
+    READLINE_POINT=${#cmd}
+}
+bind -r "\C-t"
+bind -x '"\C-t": snippets'
+
 # mkfile to create new/dir/file.ext
 mkfile() {
+    if [ -d "$1" ]; then
+        echo "mkfile: '$1' is a directory" >&2
+        return 1
+    fi
+    if [ -e "$1" ]; then
+        echo "mkfile: '$1' already exists" >&2
+        return 1
+    fi
     mkdir -p "$(dirname "$1")" && touch "$1"
 }
 
