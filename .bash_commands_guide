@@ -8,6 +8,7 @@ grep -rl 'pattern' path/to/dir/ | xargs sed -i 's/pattern/replacement/g' :: rege
 grep -rn "pattern" . :: search for regex pattern recursively, show line numbers
 
 # Files
+frename pattern replacement path/to/dir/ :: rename files and dirs matching a regex
 du -sh * | sort -h :: show directory sizes sorted
 find . -name  :: find file by name (type pattern after)
 tar -czf archive.tar.gz  :: create compressed archive
