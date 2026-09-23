@@ -14,6 +14,12 @@ ln -s ~/dotfiles/configfile ~/path/to/configfile
 find ~ -maxdepth 1 -type l -printf '%p -> %l\n'
 ```
 
+## Bash commands guide
+
+`.bash_commands_guide` is a personal commands cheatsheet. Press `Ctrl+T` to fuzzy-search it and insert the selected command on your prompt.
+
+Add new entries anytime with the same `command :: description` format; the file is read fresh on every `Ctrl+T` press.
+
 ## Import configs into a machine
 
 ```bash

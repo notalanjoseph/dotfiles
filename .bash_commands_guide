@@ -1,28 +1,31 @@
 # Git
-git diff --stat HEAD :: show changed files since last commit
-git reset --soft HEAD~1 :: undo last commit, keep changes staged
-
+git diff --stat HEAD  :: show changed files since last commit
+git reset --soft HEAD~1  :: undo last commit, keep changes staged
+::
 # Text
-sed -i 's/pattern/replacement/g' file.txt :: regex search and replace in file (edit in place)
-grep -rl 'pattern' path/to/dir/ | xargs sed -i 's/pattern/replacement/g' :: regex search and replace across files in a dir
-grep -rn "pattern" . :: search for regex pattern recursively, show line numbers
-
+grep -rn "pattern" .  :: search across files
+sed -i 's/pattern/replacement/g' file.txt  :: replace file contents
+grep -rl 'pattern' . | xargs sed -i 's/pattern/replacement/g'  :: replace across files
+::
 # Files
-frename pattern replacement path/to/dir/ :: rename files and dirs matching a regex
-du -sh * | sort -h :: show directory sizes sorted
-find . -name  :: find file by name (type pattern after)
+find . -name pattern  :: search file by name
+frename pattern replacement .  :: rename files & dirs
+du -sh * | sort -h  :: show dir sizes sorted
 tar -czf archive.tar.gz  :: create compressed archive
 tar -xzf  :: extract compressed archive
-
+::
 # Process
 ps aux | grep  :: find process by name
-top -u $USER :: show only your processes
-lsof -i :8080 :: find what process is using a port
+top -u $USER  :: show only your processes
+lsof -i :8080  :: find what process is using a port
 kill -9  :: force kill process by PID
-
+::
 # Network
-ss -tlnp :: show listening ports
+ip a  :: ip addr details
+hostname -I  :: active local IP addresses
+ss -tlnp  :: show listening ports
 curl -I  :: show HTTP response headers only
-
+::
 # SSH
-ssh-copy-id user@host :: copy ssh key to remote machine
+scp /path/to/something destusername@dest-ip:/download/path/  :: send to another machine
+ssh-copy-id user@host  :: copy ssh key to remote machine
