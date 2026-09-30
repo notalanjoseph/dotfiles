@@ -17,10 +17,15 @@ tar -czf archive.tar.gz  :: create compressed archive
 tar -xzf  :: extract compressed archive
 ::
 # Process
-ps aux | grep  :: find process by name
-top -u $USER  :: show only your processes
+ps aux | grep name  :: find process by name
+pgrep -af name  :: find processe by name, with full command line
+htop -u $USER  :: show only your processes
 lsof -i :8080  :: find what process is using a port
 kill -9  :: force kill process by PID
+free -h  :: RAM/swap summary
+df -h  :: disk space
+ps -eo pid,%cpu,%mem,comm --sort=-%cpu | head  :: top CPU users
+ps -eo pid,%mem,rss,comm --sort=-%mem | head  :: top memory users (rss is in KB)
 ::
 # Network
 ip a  :: ip addr details
