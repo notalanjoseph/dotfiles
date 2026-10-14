@@ -58,3 +58,28 @@ find ~ -maxdepth 1 -type l -printf '%p -> %l\n'
 
 **After editing:** nothing to run.
 
+### `AGENTS.md`
+
+- Global agent instructions, applied in every project.
+- Named `AGENTS.md` so that any agentic coding tools that follow this can read it.
+- `~/.claude/CLAUDE.md` is a file (not a symlink) containing `@/home/you/path/to/dotfiles/AGENTS.md`.
+
+**After editing:** nothing to run.
+
+## Others
+
+### Trivy
+
+```bash
+docker pull aquasec/trivy
+```
+
+Now you can use this to scan a project:
+
+```bash
+docker run --rm -v "$PWD:/workdir:ro" -v "$HOME/.m2/repository:/root/.m2/repository:ro" -v trivy-cache:/root/.cache \
+  aquasec/trivy:latest fs \
+  --scanners vuln,misconfig,secret \
+  --skip-dirs /workdir/target \
+  /workdir
+```
