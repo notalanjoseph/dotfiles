@@ -1,5 +1,7 @@
 # dotfiles
 
+Assumes a Debian/Ubuntu machine (`install.sh` uses `apt`) with GNOME Terminal (for the keybinding step).
+
 ## Import configs into a machine
 
 ```bash
@@ -9,6 +11,13 @@ chmod +x install.sh
 ./install.sh
 source ~/.bashrc
 ```
+
+`install.sh` also:
+- Installs `fzf`, `bat`, `fd-find`, `ripgrep`, `tree` (skipped if no sudo access).
+- Hooks `.bashrc_extra` into `~/.bashrc`, and writes the `~/.claude/CLAUDE.md` import stub.
+- On GNOME Terminal, rebinds paste to `Ctrl+V` and copy to `Ctrl+Shift+C`.
+- Backs up anything already at a symlink target to `<name>.backup` rather than overwriting it.
+  These backups are not cleaned up automatically, so check for and remove them yourself.
 
 ## Save a config
 
@@ -42,6 +51,9 @@ find ~ -maxdepth 1 -type l -printf '%p -> %l\n'
 - Default branch `main`; global `user.name`/`user.email`.
 - `core.autocrlf = input`, default editor `nano`.
 - Aliases: `git s` (short status), `git lg` (colorized graph log).
+- `credential.helper = store` caches git HTTPS remote credentials as plaintext at `~/.git-credentials`, so
+  anyone with read access to this machine can read them. Use `cache` or a keyring-backed helper
+  instead if that trade-off is not acceptable here.
 
 **After editing:** nothing to run.
 
