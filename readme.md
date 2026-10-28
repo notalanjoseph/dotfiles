@@ -50,7 +50,11 @@ find ~ -maxdepth 1 -type l -printf '%p -> %l\n'
 
 - Default branch `main`; global `user.name`/`user.email`.
 - `core.autocrlf = input`, default editor `nano`.
-- Aliases: `git s` (short status), `git lg` (colorized graph log).
+- `core.pager = delta`: `git diff`, `git show` and `git log` render through `git-delta`, with line
+  numbers, syntax highlighting and OSC 8 hyperlinks; the boxed hunk header and file-navigate are off.
+  `interactive.diffFilter = delta --color-only` covers `git add -p`.
+- Aliases: `git s` (short status), `git lg` (colorized graph log), `git ds` (one-off side-by-side
+  diff via delta).
 - `credential.helper = store` caches git HTTPS remote credentials as plaintext at `~/.git-credentials`, so
   anyone with read access to this machine can read them. Use `cache` or a keyring-backed helper
   instead if that trade-off is not acceptable here.

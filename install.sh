@@ -8,11 +8,13 @@ FILES=".bashrc_extra .gitconfig .inputrc .bash_commands_guide"
 
 echo "Starting dotfiles installation..."
 
-# Install dependencies
-PACKAGES="fzf bat fd-find ripgrep tree"
+# Install dependencies separately, so a package missing from this system's repos doesn't block the rest.
+PACKAGES="fzf bat fd-find ripgrep tree git-delta"
 if sudo -n true 2>/dev/null || sudo -v 2>/dev/null; then
     echo "Installing dependencies..."
-    sudo apt install -y $PACKAGES
+    for package in $PACKAGES; do
+        sudo apt install -y "$package" || echo "Failed to install $package, skipping..."
+    done
 else
     echo "Skipping dependency installation (no sudo access)."
 fi

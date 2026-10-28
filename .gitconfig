@@ -6,12 +6,26 @@
 [core]
 	autocrlf = input
 	editor = nano
+	pager = delta
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = false
+	line-numbers = true
+	hyperlinks = true
+	dark = true
+	hunk-header-style = omit
 
 [alias]
     # Simple shortcuts
     s = status -s
-    
+
     # A beautiful, readable, colorized git log tree
     lg = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %s %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+
+    # One-off side-by-side diff via delta
+    ds = -c delta.side-by-side=true diff
 [credential]
 	helper = store
