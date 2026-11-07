@@ -37,7 +37,9 @@ find ~ -maxdepth 1 -type l -printf '%p -> %l\n'
 
 ### `.bashrc_extra`
 
-- Prompt: `[ddmmyy|hh:mm:ss] user@host:cwd$`, colorized; terminal tab title shows `user@host` only over SSH, just the cwd locally.
+- Prompt: `[ddmmyy|hh:mm:ss] user@host:cwd (branch)$` over SSH, `[ddmmyy|hh:mm:ss] cwd (branch)$` locally;
+  colorized, the `(branch)` only appearing inside a git repo. Terminal tab title follows the same
+  user@host rule. Reveal `user@host` locally anytime with `whoami`/`hostname`.
 - `PATH` setup for Python, pnpm, Maven, IntelliJ, Cargo, and `~/.local/bin`, auto-deduplicated at the end.
 - Aliases: `bat` → `batcat`, `fd` → `fdfind` (Debian package names).
 - fzf integration with file/dir previews (`batcat`/`tree`).
