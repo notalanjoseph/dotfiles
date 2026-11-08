@@ -52,6 +52,8 @@ find ~ -maxdepth 1 -type l -printf '%p -> %l\n'
 
 - Default branch `main`; global `user.name`/`user.email`.
 - `core.autocrlf = input`, default editor `nano`.
+- `core.excludesFile = ~/dotfiles/gitignore_global`: the global ignore list for every repo and branch.
+  It replaces the default `~/.config/git/ignore`.
 - `core.pager = delta`: `git diff`, `git show` and `git log` render through `git-delta`, with line
   numbers, syntax highlighting and OSC 8 hyperlinks; the boxed hunk header and file-navigate are off.
   `interactive.diffFilter = delta --color-only` covers `git add -p`.
